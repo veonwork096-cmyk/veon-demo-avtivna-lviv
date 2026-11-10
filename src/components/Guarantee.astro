@@ -1,0 +1,39 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { mainPhone, futureNote } from "../data/site";
+---
+<section id="guarantee" class="section guarantee" aria-labelledby="guarantee-title">
+  <div class="container">
+    <div class="section__head">
+      <h2 id="guarantee-title">Гарантія і оплата</h2>
+    </div>
+    <div class="terms">
+      <div class="term">
+        <h3>Гарантія на ремонт</h3>
+        <p>Описуємо повну картину пошкоджень і даємо гарантію на ремонт.</p>
+        <p>Строк гарантії для вашого вузла уточніть у сервісі: <a class="link num" href={`tel:${mainPhone.tel}`}>{mainPhone.label}</a></p>
+        <FutureLink note={futureNote}>Умови гарантії</FutureLink>
+      </div>
+      <div class="term">
+        <h3>Розстрочка без переплат</h3>
+        <p>Оплата частинами на картки ПриватБанк і Монобанк.</p>
+        <p>Вартість ремонту називаємо після діагностики вузла.</p>
+        <FutureLink note={futureNote}>Акції</FutureLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .guarantee { background: var(--color-surface); }
+  .terms { display: grid; gap: var(--s-6); }
+  .term { display: grid; gap: var(--s-2); align-content: start; justify-items: start; max-width: 34rem; }
+  .term h3 { font-size: var(--fs-h3); }
+  .term p { font-size: var(--fs-body); }
+  .term + .term { padding-top: var(--s-6); border-top: 1px solid var(--color-line-soft); }
+  @media (min-width: 48rem) {
+    .terms { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+    .term { padding-right: var(--s-6); }
+    .term + .term { padding-top: 0; border-top: 0; padding-left: var(--s-6); border-left: 1px solid var(--color-line-soft); }
+  }
+</style>

@@ -1,0 +1,83 @@
+/* Avtivna — shared styles: type, buttons, links, FutureLink. Values only through tokens.css. */
+html { font-size: 100%; overflow-x: clip; scrollbar-color: var(--color-muted) var(--color-bg); }
+body { overflow-x: clip; }
+::selection { background: var(--color-brand); color: var(--color-text); }
+body { font-size: var(--fs-body); font-synthesis: none; padding-bottom: 0; }
+.container { width: min(100% - 2 * var(--space), var(--container)); }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.02; margin: 0; overflow-wrap: break-word; min-width: 0; color: inherit; }
+h2 { font-size: var(--fs-h2); font-stretch: 115%; letter-spacing: -0.01em; }
+@media (max-width: 39.99rem) { h2 { font-size: 1.75rem; font-stretch: 100%; } }
+h3 { font-size: var(--fs-h3); font-stretch: 135%; font-weight: 600; line-height: 1.1; }
+p { margin: 0; }
+.muted { color: var(--color-muted); }
+.small { font-size: var(--fs-small); line-height: 1.4; }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Text links on light paper */
+.link { color: var(--color-link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; transition: text-decoration-thickness 150ms var(--ease-out), color 150ms var(--ease-out); }
+.link:hover { text-decoration-thickness: 2px; color: var(--color-text); }
+
+/* Focus: dark ring on light and blue fields, yellow on the dark strip (§8.3) */
+:focus-visible { outline: 3px solid var(--color-text); outline-offset: 2px; transition: none; }
+.on-dark :focus-visible { outline-color: var(--color-accent); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-1);
+  min-height: 52px; padding: 0 var(--s-3); border-radius: var(--radius); border: 2px solid transparent;
+  font-family: var(--font-body); font-weight: 700; font-size: var(--fs-body); line-height: 1.15; text-decoration: none; text-align: center;
+  white-space: nowrap; cursor: pointer; transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out), transform 120ms var(--ease-out), border-color 150ms var(--ease-out);
+}
+.btn:active { transform: scale(.98); }
+.btn--call { background: var(--color-accent); color: var(--color-accent-ink); }
+.btn--call:hover { background: var(--color-accent-hover); }
+.btn--line { background: transparent; color: var(--color-text); border-color: var(--color-text); }
+.btn--line:hover { background: var(--color-text); color: var(--color-on-dark); }
+.on-dark .btn--line { color: var(--color-on-dark); border-color: var(--color-on-dark); }
+.on-dark .btn--line:hover { background: var(--color-on-dark); color: var(--color-text); }
+.btn--sm { min-height: var(--tap); padding: 0 var(--s-2); font-size: var(--fs-small); }
+.btn svg { width: 1.25em; height: 1.25em; flex: none; }
+.btn__stack { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; }
+.btn__stack small { font-size: var(--fs-small); font-weight: 400; }
+@media (max-width: 63.99rem) { .btn { min-height: 56px; } .btn--sm { min-height: var(--tap); } }
+
+/* FutureLink (page not built yet): quiet text with a dotted underline, tooltip «Розділ у розробці» */
+.future-link { color: var(--color-muted); text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 0.25em; min-height: var(--tap); font-size: var(--fs-small); }
+.future-link:hover { color: var(--color-text); }
+.future-link__note[aria-hidden="true"] { background: var(--color-text); color: var(--color-on-dark); }
+.on-dark .future-link { color: var(--color-on-dark-muted); }
+.on-dark .future-link:hover { color: var(--color-on-dark); }
+.on-dark .future-link__note[aria-hidden="true"] { background: var(--color-on-dark); color: var(--color-text); }
+
+/* Section rhythm */
+.section { padding-block: var(--s-9) var(--s-9); }
+@media (min-width: 64rem) { .section { padding-block: var(--s-15) var(--s-15); } }
+.section__head { display: grid; gap: var(--s-2); margin-bottom: var(--s-6); max-width: 46rem; }
+.section__head p { font-size: var(--fs-body); color: var(--color-muted); max-width: 38rem; }
+
+/* Motion hooks (design/concept.md §8.8). Hidden states only under .js (set in Base.astro), never at rest. */
+/* Effect 1: the hero part is set down on the stand (opacity only on phones) */
+.hero__obj img[data-reveal] { transition-duration: 400ms; }
+.js .hero__obj img[data-reveal]:not(.is-visible) { opacity: 0; transform: none; }
+/* Effect 2: the stand line is drawn once when a shelf or the process track enters the screen */
+.js .shelf[data-reveal]:not(.is-visible), .js .track[data-reveal]:not(.is-visible) { opacity: 1; transform: none; }
+.js .track[data-reveal]::before { transform: scaleY(0); transition: transform 500ms var(--ease-out); }
+.js .track[data-reveal].is-visible::before { transform: none; }
+/* Effect 4: process stations appear one after another */
+.station[data-reveal] { transition-duration: 450ms; }
+.js .station[data-reveal]:not(.is-visible) { opacity: 0; transform: translateY(8px); }
+@media (min-width: 64rem) {
+  .hero__obj img[data-reveal] { transition-duration: var(--dur); }
+  .js .hero__obj img[data-reveal]:not(.is-visible) { transform: translateY(-16px); }
+  .js .shelf[data-reveal]::before { transform: scaleX(0); transition: transform 700ms var(--ease-out); }
+  .js .shelf[data-reveal].is-visible::before { transform: none; }
+  .js .track[data-reveal]::before { transform: scaleX(0); transition-duration: 700ms; }
+  .js .station[data-reveal]:not(.is-visible) { transform: translateX(8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .shelf[data-reveal]::before, .js .track[data-reveal]::before { transform: none !important; transition: none; }
+  .js .station[data-reveal]:not(.is-visible) { opacity: 1; transform: none; }
+}
+
+.contacts__phone2-note { margin: 1rem 0 0; font-size: .875rem; color: var(--color-text); }

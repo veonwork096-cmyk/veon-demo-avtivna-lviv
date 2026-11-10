@@ -1,0 +1,47 @@
+---
+import Logo from "./Logo.astro";
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { nav, instagram, facebook, futureNote } from "../data/site";
+---
+<footer class="ftr on-dark">
+  <div class="container ftr__in">
+    <a class="ftr__logo" href="#top"><Logo /><span class="visually-hidden">На початок сторінки</span></a>
+    <nav class="ftr__nav" aria-label="Розділи сторінки (внизу)">
+      <ul role="list">
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="ftr__social" data-rec="R-011,S-R005">
+      <a href={instagram} rel="noopener" target="_blank" aria-label="Avtivna в Instagram"><Icon name="instagram" /><span>Instagram</span></a>
+      <a href={facebook} rel="noopener" target="_blank" aria-label="Avtivna у Facebook"><Icon name="facebook" /><span>Facebook</span></a>
+    </div>
+    <div class="ftr__meta">
+      <FutureLink note={futureNote}>Інші міста мережі</FutureLink>
+      <FutureLink note={futureNote}>Політика конфіденційності</FutureLink>
+      <p class="small">© Avtivna</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--color-text); color: var(--color-on-dark); padding-block: var(--s-4); }
+  .ftr__in { display: grid; gap: var(--s-3); align-items: center; }
+  .ftr__logo { display: block; width: 168px; color: var(--color-on-dark); border-radius: var(--radius); }
+  .ftr__nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 var(--s-3); }
+  .ftr__nav a, .ftr__social a {
+    color: var(--color-on-dark); text-decoration: none; font-size: var(--fs-small); min-height: var(--tap);
+    display: inline-flex; align-items: center; gap: var(--s-1); border-bottom: 1px solid transparent; transition: border-color 150ms var(--ease-out);
+  }
+  .ftr__nav a:hover, .ftr__social a:hover { border-bottom-color: var(--color-brand); }
+  .ftr__social { display: flex; gap: var(--s-3); }
+  .ftr__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-3); color: var(--color-on-dark-muted); border-top: 1px solid var(--color-on-dark-line); padding-top: var(--s-2); }
+  @media (min-width: 64rem) {
+    .ftr__in { grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--s-2) var(--s-6); }
+    .ftr__nav ul { justify-content: center; }
+    .ftr__meta { grid-column: 1 / -1; }
+  }
+  @media (max-width: 63.99rem) {
+    .ftr { padding-bottom: calc(var(--s-4) + 72px + env(safe-area-inset-bottom)); }
+  }
+</style>

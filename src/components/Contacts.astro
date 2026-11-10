@@ -1,0 +1,94 @@
+---
+import Icon from "./Icon.astro";
+import {
+  lvivPhones, networkPhones, addressShort, secondAddress, hours, networkHours, email, telegram, instagram, facebook, routeUrl,
+} from "../data/site";
+const [main, second] = lvivPhones;
+---
+<section id="contacts" class="contacts" data-rec="R-001,R-007" aria-labelledby="contacts-title">
+  <div class="container contacts__in">
+    <h2 id="contacts-title">Сервіс у Львові</h2>
+
+    <div class="contacts__main">
+      <a class="contacts__phone num" href={`tel:${main.tel}`}>{main.label}</a>
+      <p class="contacts__phone2-note">Другий номер сервісу у Львові</p>
+      <a class="contacts__phone2 num" href={`tel:${second.tel}`}>{second.label}</a>
+    </div>
+
+    <div class="contacts__grid">
+      <div class="contacts__where">
+        <p class="contacts__addr"><span class="visually-hidden">Адреса: </span>Львів, {addressShort}</p>
+        <p>{hours}</p>
+        <div class="contacts__acts">
+          <a class="btn btn--line" href={routeUrl} rel="noopener" target="_blank"><Icon name="route" /><span>Маршрут</span></a>
+          <a class="btn btn--line" href={telegram} rel="noopener" target="_blank"><Icon name="telegram" /><span>Написати в Telegram</span></a>
+        </div>
+      </div>
+
+      <dl class="contacts__more">
+        <div>
+          <dt>Друга адреса у Львові</dt>
+          <dd>{secondAddress}</dd>
+        </div>
+        <div>
+          <dt>Контакт-центр мережі</dt>
+          <dd>
+            {networkPhones.map((p) => <a class="contacts__link num" href={`tel:${p.tel}`}>{p.label}</a>)}
+            <span class="contacts__note">{networkHours}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Пошта</dt>
+          <dd><a class="contacts__link" href={`mailto:${email}`}>{email}</a></dd>
+        </div>
+        <div>
+          <dt>Соцмережі</dt>
+          <dd>
+            <a class="contacts__link" href={instagram} rel="noopener" target="_blank">Instagram</a>
+            <a class="contacts__link" href={facebook} rel="noopener" target="_blank">Facebook</a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contacts { background: var(--color-brand); color: var(--color-text); padding-block: var(--s-9); }
+  .contacts__in { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
+  .contacts__main { display: grid; gap: var(--s-1); justify-items: start; }
+  .contacts__phone {
+    font-family: var(--font-display); font-weight: 700; font-stretch: 100%; line-height: 1; letter-spacing: -0.01em;
+    font-size: min(var(--fs-phone), 9vw); font-stretch: 85%; color: var(--color-text); border-radius: var(--radius);
+    text-decoration: underline 3px transparent; text-underline-offset: .12em; transition: text-decoration-color 200ms var(--ease-out);
+  }
+  .contacts__phone:hover { text-decoration-color: var(--color-text); }
+  .contacts__phone2 { font-family: var(--font-display); font-weight: 600; font-stretch: 110%; font-size: var(--fs-h3); color: var(--color-text); text-underline-offset: .2em; min-height: var(--tap); display: inline-flex; align-items: center; }
+  .contacts__phone2:hover { text-decoration-thickness: 2px; }
+
+  .contacts__grid { display: grid; gap: var(--s-6); padding-top: var(--s-4); border-top: 1px solid var(--color-text); }
+  .contacts__where { display: grid; gap: var(--s-1); align-content: start; }
+  .contacts__addr { font-family: var(--font-display); font-stretch: 115%; font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; }
+  .contacts__acts { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-top: var(--s-2); }
+
+  .contacts__more { margin: 0; display: grid; gap: var(--s-3); }
+  .contacts__more div { display: grid; gap: 4px; }
+  .contacts__more dt { font-weight: 700; font-size: var(--fs-small); }
+  .contacts__more dd { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-2); }
+  .contacts__link { color: var(--color-text); text-decoration: underline; text-underline-offset: .2em; min-height: var(--tap); display: inline-flex; align-items: center; }
+  .contacts__link:hover { text-decoration-thickness: 2px; }
+  .contacts__note { font-size: var(--fs-small); width: 100%; }
+
+  @media (min-width: 40rem) {
+    .contacts__phone { font-stretch: 100%; font-size: min(var(--fs-phone), 8.4vw); }
+  }
+  @media (min-width: 48rem) {
+    .contacts__more { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3) var(--s-4); }
+  }
+  @media (min-width: 64rem) {
+    .contacts { padding-block: var(--s-15); }
+    .contacts__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; }
+    .contacts__where { grid-column: 1 / span 5; }
+    .contacts__more { grid-column: 7 / span 6; }
+  }
+</style>

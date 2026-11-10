@@ -1,0 +1,123 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import { nav, mainPhone, telegram, addressShort, hours } from "../data/site";
+---
+<header class="hdr" data-rec="R-006">
+  <div class="hdr__in container">
+    <a class="hdr__logo" href="#top"><Logo /></a>
+
+    <nav class="hdr__nav" aria-label="Розділи сторінки">
+      <ul>
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="hdr__acts" data-rec="R-001">
+      <a class="hdr__phone num" href={`tel:${mainPhone.tel}`}>
+        <Icon name="phone" />
+        <span class="hdr__phone-text">{mainPhone.label}</span>
+        <span class="visually-hidden">— подзвонити в сервіс у Львові</span>
+      </a>
+      <a class="btn btn--line btn--sm hdr__tg" href={telegram} rel="noopener" target="_blank">
+        <Icon name="telegram" /><span>Telegram</span>
+      </a>
+      <details class="menu" data-menu>
+        <summary class="menu__btn">
+          <Icon name="menu" class="menu__ico-open" /><Icon name="close" class="menu__ico-close" />
+          <span>Меню</span>
+        </summary>
+        <div class="menu__panel">
+          <nav aria-label="Меню">
+            <ul class="menu__list">
+              {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="menu__acts">
+            <a class="btn btn--call" href={`tel:${mainPhone.tel}`}><Icon name="phone" /><span>Подзвонити <span class="num">{mainPhone.label}</span></span></a>
+            <a class="btn btn--line" href={telegram} rel="noopener" target="_blank"><Icon name="telegram" /><span>Написати в Telegram</span></a>
+          </div>
+          <p class="menu__where small">Львів, {addressShort}<br />{hours}</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Menu panel: closes after a jump to a section, on Escape and on a click outside. Works as plain <details> without JS.
+  const menu = document.querySelector<HTMLDetailsElement>("[data-menu]");
+  if (menu) {
+    menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => { menu.open = false; }));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menu.open) { menu.open = false; menu.querySelector("summary")?.focus(); }
+    });
+    document.addEventListener("click", (e) => { if (menu.open && !menu.contains(e.target as Node)) menu.open = false; });
+  }
+</script>
+
+<style>
+  .hdr { position: sticky; top: 0; z-index: 50; background: var(--color-surface); border-bottom: 1px solid var(--color-line-soft); }
+  .hdr__in { display: flex; align-items: center; gap: var(--s-2); height: var(--header-h); }
+  .hdr__logo { display: block; width: clamp(112px, 34vw, 132px); color: var(--color-text); flex: none; border-radius: var(--radius); }
+  .hdr__nav { display: none; margin-inline: auto; }
+  .hdr__nav ul { display: flex; gap: var(--s-3); list-style: none; margin: 0; padding: 0; }
+  .hdr__nav a, .menu__list a {
+    color: var(--color-text); text-decoration: none; font-size: var(--fs-small); font-weight: 700;
+    display: inline-flex; align-items: center; min-height: var(--tap); border-bottom: 2px solid transparent; white-space: nowrap;
+    transition: border-color 150ms var(--ease-out);
+  }
+  .hdr__nav a:hover { border-bottom-color: var(--color-brand); }
+  .hdr__acts { display: flex; align-items: center; gap: var(--s-1); margin-left: auto; }
+  .hdr__phone {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--s-1); min-width: var(--tap); min-height: var(--tap);
+    color: var(--color-text); text-decoration: none; font-family: var(--font-display); font-stretch: 110%; font-weight: 700; font-size: 1.0625rem;
+    border-radius: var(--radius); padding: 0 var(--s-1);
+  }
+  .hdr__phone:hover .hdr__phone-text { text-decoration: underline; text-underline-offset: .2em; }
+  .hdr__phone-text { display: none; }
+  .hdr__tg { display: none; }
+
+  .menu { position: static; }
+  .menu__btn {
+    list-style: none; display: inline-flex; align-items: center; gap: var(--s-1); min-height: var(--tap); padding: 0 var(--s-2);
+    border: 2px solid var(--color-text); border-radius: var(--radius); font-weight: 700; font-size: var(--fs-small); cursor: pointer;
+    transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out);
+  }
+  .menu__btn::-webkit-details-marker { display: none; }
+  .menu__btn:hover { background: var(--color-text); color: var(--color-on-dark); }
+  .menu__btn :global(.menu__ico-close) { display: none; }
+  .menu[open] .menu__btn :global(.menu__ico-close) { display: block; }
+  .menu[open] .menu__btn :global(.menu__ico-open) { display: none; }
+  .menu__panel {
+    position: absolute; left: 0; right: 0; top: 100%; background: var(--color-surface);
+    border-bottom: var(--line) solid var(--color-brand); padding: var(--s-3) var(--space) var(--s-4);
+    display: grid; gap: var(--s-3); max-height: calc(100dvh - var(--header-h)); overflow-y: auto;
+  }
+  .menu__list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .menu__list a { font-family: var(--font-display); font-stretch: 120%; font-weight: 600; font-size: 1.375rem; min-height: 52px; width: 100%; border-bottom: 1px solid var(--color-line-soft); }
+  .menu__list a:hover { border-bottom-color: var(--color-brand); }
+  .menu__acts { display: grid; gap: var(--s-1); }
+  .menu__where { color: var(--color-muted); }
+
+  @media (max-width: 22.49rem) {
+    .hdr__acts { gap: 4px; }
+    .menu__btn { padding: 0 var(--s-1); }
+  }
+  @media (min-width: 40rem) {
+    .hdr__in { gap: var(--s-3); }
+    .hdr__logo { width: 168px; }
+    .hdr__phone-text { display: inline; }
+    .menu__acts { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 64rem) {
+    .hdr__logo { width: 190px; }
+    .hdr__tg { display: inline-flex; }
+    .hdr__acts { gap: var(--s-2); }
+  }
+  @media (min-width: 80rem) {
+    .hdr__nav { display: block; }
+    .hdr__acts { margin-left: 0; }
+    .menu { display: none; }
+  }
+</style>

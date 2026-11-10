@@ -1,0 +1,35 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { truckBrands, mainPhone, futureNote } from "../data/site";
+---
+<section id="trucks" class="section trucks on-dark" aria-labelledby="trucks-title">
+  <div class="container trucks__in">
+    <h2 id="trucks-title">Вантажні авто і спецтехніка</h2>
+    <p class="trucks__brands">{truckBrands.join(", ")}</p>
+    <div class="trucks__foot">
+      <p class="trucks__text">Ремонт комерційного транспорту і спецтехніки. Індивідуальний підхід, розстрочка платежів, ПДВ.</p>
+      <div class="trucks__acts">
+        <a class="btn btn--call" href={`tel:${mainPhone.tel}`}><Icon name="phone" /><span>Подзвонити в сервіс</span></a>
+        <FutureLink note={futureNote}>Комерційний транспорт: детальніше</FutureLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trucks { background: var(--color-text); color: var(--color-on-dark); }
+  .trucks__in { display: grid; gap: var(--s-4); }
+  .trucks__brands {
+    font-family: var(--font-display); font-stretch: 140%; font-weight: 600; font-size: var(--fs-brands); line-height: 1.2;
+    padding-bottom: var(--s-4); border-bottom: var(--line) solid var(--color-brand); overflow-wrap: break-word; min-width: 0;
+  }
+  .trucks__foot { display: grid; gap: var(--s-3); }
+  .trucks__text { color: var(--color-on-dark-muted); max-width: 34rem; }
+  .trucks__acts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-3); }
+  @media (min-width: 64rem) {
+    .trucks__foot { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-items: center; }
+    .trucks__text { grid-column: 1 / span 6; font-size: var(--fs-lead); line-height: 1.4; }
+    .trucks__acts { grid-column: 8 / span 5; justify-content: flex-end; }
+  }
+</style>

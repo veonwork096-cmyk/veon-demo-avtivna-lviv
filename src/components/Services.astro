@@ -1,0 +1,92 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { parts, mainPhone, futureNote, type Part } from "../data/site";
+const tiers: Part[][] = [parts.slice(0, 4), parts.slice(4)];
+---
+<section id="services" class="section services" aria-labelledby="services-title">
+  <div class="container">
+    <div class="section__head">
+      <h2 id="services-title">Вузли, які відновлюємо у Львові</h2>
+      <p>Знайдіть свій вузол і подзвоніть у сервіс. Вартість ремонту називаємо після діагностики.</p>
+    </div>
+
+    {tiers.map((tier, t) => (
+      <ul class:list={["shelf", `shelf--${t + 1}`]} data-reveal role="list">
+        {tier.map((p) => (
+          <li class:list={["part", { "part--wide": p.wide }]} id={`part-${p.id}`}>
+            <div class="part__obj">
+              <img
+                src={p.img.src} srcset={p.img.srcset} sizes={p.img.sizes}
+                width={p.img.width} height={p.img.height} alt={p.img.alt}
+                loading="lazy" decoding="async"
+              />
+            </div>
+            <div class="part__info">
+              <h3>{p.title}</h3>
+              {p.price ? <p class="part__price">{p.price}</p> : <p class="part__price small">Вартість — після діагностики</p>}
+              <div class="part__acts">
+                <a class="btn btn--call btn--sm" href={`tel:${mainPhone.tel}`} aria-label={`Подзвонити в сервіс щодо послуги «${p.title}»`}>
+                  <Icon name="phone" /><span>Подзвонити</span>
+                </a>
+                <FutureLink note={futureNote}>Детальніше</FutureLink>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</section>
+
+<style>
+  .services { --obj-h: 96px; padding-top: var(--s-6); }
+  .shelf { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
+  .shelf + .shelf { margin-top: var(--s-4); }
+  .part { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: var(--s-2); align-items: start; }
+  .part__obj { position: relative; height: calc(var(--obj-h) + var(--line)); display: flex; align-items: flex-end; justify-content: center; border-bottom: var(--line) solid var(--color-brand); transition: border-color 200ms var(--ease-out); }
+  .part__obj img { max-height: var(--obj-h); max-width: 100%; width: auto; height: auto; object-fit: contain; object-position: bottom; transition: transform 200ms var(--ease-out); }
+  .part__info { display: grid; gap: var(--s-1); align-content: start; min-width: 0; }
+  .part h3 { font-size: 1.1875rem; font-stretch: 112%; line-height: 1.12; }
+  .part__price { color: var(--color-muted); }
+  .part__acts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1) var(--s-2); margin-top: var(--s-1); }
+
+  /* Effect 3 (§8.8): the part lifts off the line, the line under it darkens */
+  .part:hover .part__obj img, .part:focus-within .part__obj img { transform: translateY(-4px); }
+  .part:hover .part__obj, .part:focus-within .part__obj { border-bottom-color: var(--color-text); }
+
+  @media (min-width: 40rem) {
+    .services { --obj-h: 120px; }
+    .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .part { grid-template-columns: 148px minmax(0, 1fr); }
+    .part h3 { font-size: 1.375rem; font-stretch: 125%; }
+  }
+
+  /* Desktop: one stand line per tier, parts aligned by their base, names under the line */
+  @media (min-width: 64rem) {
+    .services { --obj-h: 200px; padding-top: var(--s-15); }
+    .shelf { position: relative; gap: 24px; }
+    .shelf--1 { grid-template-columns: minmax(0, 1.45fr) repeat(2, minmax(0, 1fr)) minmax(0, 1.25fr); }
+    .shelf--2 { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--s-9); }
+    .shelf::before {
+      content: ""; position: absolute; left: 0; right: 0; top: var(--obj-h); height: var(--line);
+      background: var(--color-brand); transform-origin: left center;
+    }
+    .part { grid-template-columns: minmax(0, 1fr); gap: var(--s-3); }
+    .part__obj { border-bottom: 0; height: var(--obj-h); justify-content: flex-start; }
+    .part__obj::after {
+      content: ""; position: absolute; left: 0; right: 0; top: 100%; height: var(--line); z-index: 1;
+      background: var(--color-text); opacity: 0; transition: opacity 200ms var(--ease-out);
+    }
+    .part:hover .part__obj::after, .part:focus-within .part__obj::after { opacity: 1; }
+    .part--wide .part__obj img { max-height: calc(var(--obj-h) + 24px); margin-bottom: -8px; }
+    .part h3 { font-size: 1.5rem; font-stretch: 125%; }
+    .part:active .part__obj img { transform: translateY(-4px) scale(.98); }
+  }
+  @media (max-width: 63.99rem) {
+    .part:active .part__obj img { transform: scale(.98); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .part:hover .part__obj img, .part:focus-within .part__obj img, .part:active .part__obj img { transform: none; }
+  }
+</style>

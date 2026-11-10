@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Services from "../components/Services.astro";
+import Process from "../components/Process.astro";
+import Guarantee from "../components/Guarantee.astro";
+import Trucks from "../components/Trucks.astro";
+import Contacts from "../components/Contacts.astro";
+import Footer from "../components/Footer.astro";
+import BottomBar from "../components/BottomBar.astro";
+import { mainPhone, email, instagram, facebook } from "../data/site";
+
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "AutoRepair",
+  name: "Avtivna — спеціалізований автосервіс у Львові",
+  telephone: mainPhone.tel,
+  email,
+  address: { "@type": "PostalAddress", streetAddress: "вул. Зелена, 408", addressLocality: "Львів", addressCountry: "UA" },
+  openingHoursSpecification: [
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "19:00" },
+  ],
+  sameAs: [instagram, facebook],
+};
+---
+<Base
+  lang="uk"
+  title="Ремонт турбін, ПНВТ, форсунок і рульових рейок у Львові — Avtivna"
+  description="Сервіс Avtivna у Львові, вул. Зелена, 408: відновлення турбін, паливної апаратури, рульових рейок і двигунів, очистка DPF. Телефон (067) 700-86-20."
+>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(ld)} />
+  <Header slot="header" />
+  <Hero />
+  <Services />
+  <Process />
+  <Guarantee />
+  <Trucks />
+  <Contacts />
+  <Footer slot="footer" />
+  <BottomBar slot="footer" />
+</Base>

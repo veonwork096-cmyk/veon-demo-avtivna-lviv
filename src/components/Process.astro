@@ -1,0 +1,85 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { steps, promises, futureNote } from "../data/site";
+---
+<section id="process" class="section process" aria-labelledby="process-title">
+  <div class="container">
+    <div class="section__head">
+      <h2 id="process-title">Двічі на стенді: як проходить ремонт</h2>
+      <p>Спеціалізовані стенди для подвійної перевірки вузлів: спершу діагностика, а після ремонту — регулювання за робочими параметрами.</p>
+    </div>
+
+    <div class="track" data-reveal>
+      <div class="stand stand--start">
+        <p class="stand__name">Стенд до ремонту</p>
+        <p class="stand__text">Діагностика визначає несправність вузла.</p>
+      </div>
+      <ol class="stations" role="list">
+        {steps.map((s, i) => (
+          <li class="station" data-reveal style={`--reveal-delay:${120 + i * 120}ms`}>
+            <span class="station__n" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="stand stand--end">
+        <p class="stand__name">Стенд після ремонту</p>
+        <p class="stand__text">Регулювання за робочими параметрами на стенді, який імітує роботу авто.</p>
+      </div>
+    </div>
+
+    <div class="extra">
+      <div class="extra__shop">
+        <h3>Власний токарно-фрезерувальний цех</h3>
+        <p>Цех оснащений верстатами і кваліфікованим персоналом, тому відновлюємо елементи будь-якої складності, а не лише замінюємо їх.</p>
+        <p class="extra__diag">Також робимо комп'ютерну діагностику авто. <FutureLink note={futureNote}>Про діагностику</FutureLink></p>
+      </div>
+      <ul class="promises" role="list">
+        {promises.map((p) => <li><strong>{p.lead}</strong> {p.text}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process { --gap: 24px; }
+  .track { position: relative; display: grid; gap: var(--s-3); padding-left: var(--s-4); }
+  .track::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--line);
+    background: var(--color-brand); transform-origin: center top;
+  }
+  .stand { background: var(--color-brand); color: var(--color-text); padding: var(--s-3); margin-left: calc(-1 * var(--s-4)); padding-left: calc(var(--s-4) + var(--s-1)); display: grid; gap: var(--s-1); }
+  .stand__name { font-family: var(--font-display); font-stretch: 120%; font-weight: 700; font-size: 1.25rem; line-height: 1.1; }
+  .stand__text { font-size: var(--fs-body); line-height: 1.45; }
+  .stations { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
+  .station { position: relative; display: grid; gap: var(--s-1); }
+  .station::before {
+    content: ""; position: absolute; left: calc(-1 * var(--s-4) - 4px); top: 10px; width: 14px; height: 14px; background: var(--color-text);
+  }
+  .station__n { font-family: var(--font-display); font-stretch: 120%; font-weight: 700; font-size: 2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .station h3 { font-size: 1.375rem; font-stretch: 125%; }
+  .station p { color: var(--color-muted); }
+
+  .extra { display: grid; gap: var(--s-6); margin-top: var(--s-9); }
+  .extra__shop { display: grid; gap: var(--s-2); align-content: start; max-width: 36rem; }
+  .extra__shop h3 { font-size: var(--fs-h3); }
+  .extra__diag { color: var(--color-muted); display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-2); }
+  .promises { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--color-line-soft); }
+  .promises li { padding-block: var(--s-2); border-bottom: 1px solid var(--color-line-soft); font-size: var(--fs-body); }
+  .promises strong { font-weight: 700; }
+
+
+  @media (min-width: 64rem) {
+    .track { grid-template-columns: minmax(0, 1.25fr) minmax(0, 4fr) minmax(0, 1.25fr); gap: var(--gap); padding-left: 0; padding-top: 0; }
+    .track::before { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: var(--line); transform-origin: left center; }
+    .stand { margin-left: 0; padding: var(--s-4) var(--s-3) var(--s-3); align-content: start; align-self: start; }
+    .station h3 { font-size: 1.25rem; font-stretch: 105%; }
+    .stations { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); padding-top: var(--s-4); }
+    .station::before { left: 0; top: calc(-1 * var(--s-4) - 4px); }
+    .station__n { font-size: 3rem; }
+    .extra { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
+    .extra__shop { grid-column: 1 / span 5; }
+    .promises { grid-column: 7 / span 6; }
+  }
+</style>

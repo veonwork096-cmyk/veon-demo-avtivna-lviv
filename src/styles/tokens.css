@@ -1,0 +1,53 @@
+/* Hallmark · shape: stand-line page (hero plate → shelf → process line → terms → dark brand strip → blue contact field) · genre: editorial · theme: custom · job: book · idea: "Двічі на стенді: кожен вузол стоїть на синій лінії стенда, і по ній відвідувач іде до дзвінка у Львів" · vibe: "точний, світлий, металевий, фірмово-синій, без зайвого"
+ * paper: #F2F5F8 · surface: absolute (#FFFFFF, concept §8.3) · accent: #FFD71D (brand field #209BF4) · display: Science Gothic · body: Arsenal · hero: H1 + турбіна, що стоїть на синій плиті стенда на всю ширину; у плиті дзвінок, Telegram, адреса, години · nav: світла фіксована, 5 якорів + номер Львова · footer: тонка темно-синя смуга під синім полем контактів · imagery: client photos (ізольовані вузли) · signature: синя лінія стенда — від турбіни в героя до синього поля з номером
+ * axes: light/grotesk-wide/chromatic-blue · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery, client part photos are small (140–270 px) — shown near native size on the shelf, never upscaled; the hero uses the only large one (turbine). */
+/* Hallmark · waive 7b · --color-surface and --color-on-dark are #FFFFFF · the approved palette in design/concept.md §8.3 (veon-concept colors) fixes white surfaces and white text on #0C1423; tinting would change the client-approved concept */
+/* Hallmark · waive 39b · hero call button and the Telegram button beside it are 55px · design/concept.md §8.6 puts the Lviv number inside the call button (two lines) and sets 56px for the main action; the second button matches its row */
+/* Line 1 of this file is the Hallmark stamp (docs/process/hallmark.md): filled from design/concept.md §8.12. */
+/* Client design tokens: only from design/concept.md (veon-concept: colors, fonts). */
+:root {
+  /* colour — design/concept.md §8.3 */
+  --color-bg: #F2F5F8;
+  --color-surface: #FFFFFF;
+  --color-text: #0C1423;
+  --color-muted: #4A5566;
+  --color-brand: #209BF4;
+  --color-accent: #FFD71D;
+  --color-link: #0A5C9E;
+  --color-on-dark: #FFFFFF;
+  --color-accent-ink: var(--color-text);
+  --color-accent-hover: color-mix(in srgb, var(--color-accent) 92%, var(--color-text));
+  --color-line-soft: color-mix(in srgb, var(--color-text) 14%, transparent);
+  --color-on-dark-muted: color-mix(in srgb, var(--color-on-dark) 74%, var(--color-text));
+  --color-on-dark-line: color-mix(in srgb, var(--color-on-dark) 22%, transparent);
+
+  /* type — §8.4 (fonts self-hosted: src/layouts/Base.astro) */
+  --font-display: "Science Gothic", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Arsenal", system-ui, sans-serif;
+  --fs-small: 0.875rem;   /* 14 */
+  --fs-body: 1.0625rem;   /* 17 → 18 */
+  --fs-lead: 1.375rem;    /* 22 */
+  --fs-h3: clamp(1.375rem, 1.2rem + 0.5vw, 1.75rem);       /* 22 → 28 */
+  --fs-h2: clamp(2rem, 1.5rem + 1.6vw, 3rem);               /* 32 → 48 */
+  --fs-h1: clamp(2.125rem, 1.2rem + 3.6vw, 4.5rem);         /* 34 → 72 */
+  --fs-phone: clamp(2.5rem, 1.2rem + 4.4vw, 5rem);          /* 40 → 80 */
+  --fs-brands: clamp(1.5rem, 1rem + 1.8vw, 2.5rem);         /* 24 → 40 */
+
+  /* space — step 8 (§8.5) */
+  --s-1: 0.5rem;  --s-2: 1rem;  --s-3: 1.5rem;  --s-4: 2rem;
+  --s-6: 3rem;    --s-9: 4.5rem; --s-15: 7.5rem;
+  --space: clamp(1.25rem, 0.2rem + 3vw, 3.5rem);            /* page gutter 20 → 56 */
+  --container: 1320px;
+  --header-h: 56px;
+  --line: 6px;                                              /* the stand line */
+  --radius: 4px;
+  --tap: 44px;
+
+  /* motion — §8.8 */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 600ms;
+}
+@media (min-width: 64rem) {
+  :root { --header-h: 72px; --fs-body: 1.125rem; }
+}

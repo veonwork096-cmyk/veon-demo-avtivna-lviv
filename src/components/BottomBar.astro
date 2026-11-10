@@ -1,0 +1,34 @@
+---
+import Icon from "./Icon.astro";
+import { mainPhone, telegram } from "../data/site";
+---
+<div class="bar on-dark" data-rec="R-005" data-bar>
+  <a class="btn btn--call" href={`tel:${mainPhone.tel}`}><Icon name="phone" /><span>Подзвонити</span></a>
+  <a class="btn btn--line" href={telegram} rel="noopener" target="_blank"><Icon name="telegram" /><span>Telegram</span></a>
+</div>
+
+<script>
+  // Effect 5 (§8.8): on phones the bar slides in once the hero's call plate has left the screen.
+  // Without JS the bar is simply always there.
+  const bar = document.querySelector<HTMLElement>("[data-bar]");
+  const plate = document.querySelector("#hero .plate");
+  if (bar && plate && "IntersectionObserver" in window) {
+    bar.classList.add("is-hidden");
+    new IntersectionObserver(([e]) => {
+      const past = !e.isIntersecting && e.boundingClientRect.top < 0;
+      bar.classList.toggle("is-hidden", !past);
+    }).observe(plate);
+  }
+</script>
+
+<style>
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-1);
+    padding: var(--s-1) var(--space) calc(var(--s-1) + env(safe-area-inset-bottom)); background: var(--color-text);
+    transition: transform 250ms var(--ease-out), visibility 0s linear 0s;
+  }
+  .bar .btn { min-height: 52px; padding-inline: var(--s-2); }
+  .bar.is-hidden { transform: translateY(100%); visibility: hidden; transition: transform 250ms var(--ease-out), visibility 0s linear 250ms; }
+  @media (min-width: 64rem) { .bar { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .bar, .bar.is-hidden { transition: none; } }
+</style>
